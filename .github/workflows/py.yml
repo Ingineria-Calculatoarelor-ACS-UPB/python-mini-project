@@ -1,0 +1,38 @@
+name: Python Code Checks
+
+on:
+  pull_request:
+    branches:
+      - "*"
+
+jobs:
+  code-checks:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+
+      - name: Install dependencies
+        run: pip install pylint ruff black bandit pytype
+
+      - name: Run Pylint
+        run: pylint --fail-under=9.0 .
+
+      - name: Run Ruff
+        run: ruff .
+
+      - name: Run Black
+        run: black .
+
+      - name: Run Bandit
+        run: bandit -r .
+
+      - name: Run Pytype
+        run: pytype .
+
