@@ -1,0 +1,59 @@
+name: Check Python code
+
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - edited
+jobs:
+  runPylint:
+    name: Run pylint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Pylint
+        shell: bash
+        run: |
+          pip install pylint
+          pylint --recursive=y Zombie_Game/
+
+  runRuff:
+    name: Run ruff
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ruff
+        shell: bash
+        run: |
+          pip install ruff
+          ruff Zombie_Game/
+
+  runBlack:
+    name: Run black
+    runs-on: ubuntu-latest
+    steps:
+      - name: Black
+        shell: bash
+        run: |
+          pip install black
+          black --diff --color Zombie_Game/
+          black Zombie_Game/
+
+  runBandit:
+    name: Run bandit
+    runs-on: ubuntu-latest
+    steps:
+      - name: Bandit
+        shell: bash
+        run: |
+          pip install bandit
+          bandit Zombie_Game/
+
+  runPytype:
+    name: Run pytype
+    runs-on: ubuntu-latest
+    steps:
+      - name: Pytype
+        shell: bash
+        run: |
+          pip install pytype
+          pytype Zombie_Game/
