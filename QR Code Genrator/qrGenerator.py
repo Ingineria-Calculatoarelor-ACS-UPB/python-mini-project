@@ -5,7 +5,7 @@ from tkinter import *
 
 # This Function is responsible to take the input -> Convert it to Image Code -> Convert Image code to png.
 def get_code():
-    data_var = data.get()
+    data_var = data.get() 
     qr = pyqrcode.create(str(data_var))
     qr.png('code.png', scale=6)
 
