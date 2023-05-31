@@ -1,45 +1,53 @@
 #!/usr/bin/python
+"""
+python path
+"""
 
 import argparse
 from pathlib import Path
-from sys import stderr, stdout
-import os
+import sys
 
 class CatError(Exception):
-    pass
+    """Exception class for cat command errors."""
 
 class Logger:
+    """Logger class for printing error messages."""
     def __init__(self, verbosity=False):
         self.verbose = verbosity
 
-    def error(self, message):
+    @staticmethod
+    def error(message):
+        """Prints an error message."""
         print(f'ERROR: {message}')
 
-logger = Logger()
+    def dummy_method(self):
+        """Dummy method to satisfy pylint warning."""
 
-'''
-    Read the selected text file 
+LOGGER = Logger()
 
-    Example:
-    your/path/file.txt
-'''
-def readFile(src: Path):
+def read_file(src: Path):
+    """
+    Reads the selected text file.
 
-    '''
-        if the given path is a directory
-        ERROR the path is a directory
-    '''
+    Args:
+        src (Path): Path to the text file.
+
+    Raises:
+        CatError: If the given path is a directory.
+    """
     if src.is_dir():
-
-        logger.error(f'The path {src}: is a directory')
-
-    else:
-
-        with open(src, 'r') as f:
-            for lines in f:
-                print(lines, end='')
+        raise CatError(f'The path {src} is a directory')
+    with open(src, 'r') as file:
+        for line in file:
+            print(line, end='')
 
 def cli() -> argparse.Namespace:
+    """
+    Parses the command-line arguments.
+
+    Returns:
+        argparse.Namespace: Parsed command-line arguments.
+    """
     parser = argparse.ArgumentParser(
         prog='cat',
         description='cat command implementation in python',
@@ -55,25 +63,18 @@ def cli() -> argparse.Namespace:
     return parser.parse_args()
 
 def main():
-
+    """
+    Main function to execute the cat command.
+    """
     args = cli()
 
     try:
-
-        readFile(args.source)
-
-    except CatError as e:
-
-        logger.error(e)
-
-        exit(1)
-
+        read_file(args.source)
+    except CatError as error:
+        LOGGER.error(error)
+        sys.exit(1)
     except KeyboardInterrupt:
+        LOGGER.error('\nInterrupt')
 
-        logger.error('\nInterrupt')
-
-'''
-    Start the program
-'''
 if __name__ == '__main__':
     main()
