@@ -4,7 +4,7 @@ import imaplib
 
 
 user = 'Your Gamil address'
-password = 'Your password'
+password = input('Your password')
 
 mail = imaplib.IMAP4_SSL('imap.gmail.com')
 mail.login(user, password)
